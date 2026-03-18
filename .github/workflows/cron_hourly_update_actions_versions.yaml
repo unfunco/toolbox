@@ -77,6 +77,6 @@ jobs:
           --body "This updates the versions of GitHub Actions in shard ${{ steps.shard.outputs.shard }} to the latest versions published on the GitHub Marketplace." \
           --label "automata 🤖" \
           --label "chore 🧹" \
-          --add-reviewer "@cpilot" \
+          --reviewer "@copilot" \
           --head "$branch" \
           --base main
