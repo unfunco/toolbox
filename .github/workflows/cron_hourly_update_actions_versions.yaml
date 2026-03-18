@@ -69,11 +69,14 @@ jobs:
 
         git checkout -b "$branch"
         git add state.json
-        git commit -m "chore: Update GitHub Actions for shard ${{ steps.select-shard.outputs.shard }}"
+        git commit -m "chore: Update GitHub Actions for shard ${{ steps.shard.outputs.shard }}"
         git push origin "$branch"
 
         gh pr create \
-          --title "chore: Update versions for shard ${{ steps.select-shard.outputs.shard }}" \
-          --body "This updates the versions of GitHub Actions in shard ${{ steps.select-shard.outputs.shard }} to the latest versions published on the GitHub Marketplace." \
+          --title "chore: Update versions for shard ${{ steps.shard.outputs.shard }}" \
+          --body "This updates the versions of GitHub Actions in shard ${{ steps.shard.outputs.shard }} to the latest versions published on the GitHub Marketplace." \
+          --label "automata 🤖" \
+          --label "chore 🧹" \
+          --add-reviewer "@cpilot" \
           --head "$branch" \
           --base main
