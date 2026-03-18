@@ -19,6 +19,12 @@
       "published_at": "2026-01-09T19:53:28Z"
     },
     {
+      "action": "actions/first-interaction",
+      "tag": "v3.1.0",
+      "sha": "1c4688942c71f71d4f5502a26ea67c331730fa4d",
+      "published_at": "2025-10-03T13:58:45Z"
+    },
+    {
       "action": "actions/labeler",
       "tag": "v6.0.1",
       "sha": "634933edcd8ababfe52f92936142cc22ac488b1b",
