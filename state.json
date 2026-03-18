@@ -1,6 +1,12 @@
 {
   "actions": [
     {
+      "action": "Azure/docker-login",
+      "tag": "v2",
+      "sha": "15c4aadf093404726ab2ff205b2cdd33fa6d054c",
+      "published_at": "2024-05-22T18:49:24Z"
+    },
+    {
       "action": "Azure/webapps-deploy",
       "tag": "v2.2.18",
       "sha": "b2037aa567123fe6dfb0f4a95969067d76e35d7b",
