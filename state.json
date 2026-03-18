@@ -13,6 +13,12 @@
       "published_at": "2026-03-05T06:26:24Z"
     },
     {
+      "action": "actions/labeler",
+      "tag": "v6.0.1",
+      "sha": "634933edcd8ababfe52f92936142cc22ac488b1b",
+      "published_at": "2025-09-04T17:56:16Z"
+    },
+    {
       "action": "actions/upload-artifact",
       "tag": "v7.0.0",
       "sha": "bbbca2ddaa5d8feaa63e36b76fdaad77386f024f",
@@ -23,6 +29,12 @@
       "tag": "v5.5.2",
       "sha": "671740ac38dd9b0130fbe1cec585b89eea48d3de",
       "published_at": "2025-12-09T19:21:50Z"
+    },
+    {
+      "action": "peter-evans/create-pull-request",
+      "tag": "v8.1.0",
+      "sha": "c0f553fe549906ede9cf27b5156039d195d2ece0",
+      "published_at": "2026-01-21T15:22:17Z"
     }
   ]
 }
