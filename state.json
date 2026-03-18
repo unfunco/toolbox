@@ -1,6 +1,12 @@
 {
   "actions": [
     {
+      "action": "Azure/webapps-deploy",
+      "tag": "v2.2.18",
+      "sha": "b2037aa567123fe6dfb0f4a95969067d76e35d7b",
+      "published_at": "2026-03-05T06:26:24Z"
+    },
+    {
       "action": "codecov/codecov-action",
       "tag": "v5.5.2",
       "sha": "671740ac38dd9b0130fbe1cec585b89eea48d3de",
