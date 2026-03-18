@@ -62,8 +62,17 @@ jobs:
         GITHUB_TOKEN: ${{ github.token }}
       if: steps.update-state.outputs.changed == 'true'
       run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+        branch="update-actions-shard-${{ steps.shard.outputs.shard }}"
+
+        git checkout -b "$branch"
+        git add state.json
+        git commit -m "chore: Update versions for shard ${{ steps.select-shard.outputs.shard }}"
+
         gh pr create \
           --title "chore: Update versions for shard ${{ steps.select-shard.outputs.shard }}" \
-          --body "This PR updates the versions of Actions in shard ${{ steps.select-shard.outputs.shard }} to the latest versions published on the GitHub Marketplace." \
+          --body "This PR updates the versions of GitHub Actions in shard ${{ steps.select-shard.outputs.shard }} to the latest versions published on the GitHub Marketplace." \
           --head "update-actions-shard-${{ steps.select-shard.outputs.shard }}-$(date -u +%Y%m%d%H%M%S)" \
           --base main
