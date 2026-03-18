@@ -86,6 +86,7 @@ jobs:
         user_id="$(gh api "/users/${{ steps.app-token.outputs.app-slug }}[bot]" --jq .id)"
         echo "user-id=$user_id" >> "$GITHUB_OUTPUT"
     - name: Create pull request
+      id: create-pull-request
       env:
         APP_TOKEN: ${{ steps.app-token.outputs.token }}
         GH_TOKEN: ${{ steps.app-token.outputs.token }}
@@ -121,4 +122,20 @@ jobs:
           --head "$branch" \
           --base main)"
 
-        gh pr merge --auto --squash --delete-branch "$pr_url"
+        echo "pr-url=$pr_url" >> "$GITHUB_OUTPUT"
+    - name: Wait for pull request checks
+      env:
+        GH_TOKEN: ${{ steps.app-token.outputs.token }}
+      if: steps.update-state.outputs.changed == 'true'
+      run: |
+        set -euo pipefail
+
+        gh pr checks "${{ steps.create-pull-request.outputs.pr-url }}" --watch --fail-fast
+    - name: Merge pull request
+      env:
+        GH_TOKEN: ${{ steps.app-token.outputs.token }}
+      if: steps.update-state.outputs.changed == 'true'
+      run: |
+        set -euo pipefail
+
+        gh pr merge --squash --delete-branch "${{ steps.create-pull-request.outputs.pr-url }}"

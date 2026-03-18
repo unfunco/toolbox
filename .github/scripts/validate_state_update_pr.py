@@ -20,7 +20,11 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--actions-file", required=True)
     parser.add_argument("--state-file", required=True)
-    parser.add_argument("--base-ref", required=True)
+    parser.add_argument(
+        "--base-ref",
+        required=True,
+        help="Git revision for the pull request base, preferably the event base SHA.",
+    )
     return parser.parse_args()
 
 
