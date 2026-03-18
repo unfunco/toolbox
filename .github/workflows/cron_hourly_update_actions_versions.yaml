@@ -58,6 +58,8 @@ jobs:
           --shard "${{ steps.shard.outputs.shard }}"
       timeout-minutes: 5
     - name: Create pull request
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
       if: steps.update-state.outputs.changed == 'true'
       run: |
         gh pr create \
