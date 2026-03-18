@@ -1,10 +1,7 @@
 name: PR / Actions
 
 on:
-  pull_request:
-    paths:
-    - .github/workflows/pr_actions.yaml
-    - actions.txt
+  pull_request: { }
 
 jobs:
   verify:
@@ -13,6 +10,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      with:
+        fetch-depth: 0
     - name: Validate actions.txt
       run: |
         set -euo pipefail
@@ -36,15 +35,13 @@ jobs:
         fi
     - name: Check new GitHub Actions
       env:
+        BASE_SHA: ${{ github.event.pull_request.base.sha }}
         GH_TOKEN: ${{ github.token }}
       run: |
         set -euo pipefail
 
-        echo "Fetching base branch..."
-        git fetch origin "${{ github.base_ref }}" --depth=1
-
         echo "Identifying added actions..."
-        git show "origin/${{ github.base_ref }}:actions.txt" 2>/dev/null | \
+        git show "${BASE_SHA}:actions.txt" 2>/dev/null | \
           LC_ALL=C sort > actions.base.txt || \
           touch actions.base.txt
 
