@@ -1,21 +1,22 @@
 import { cp, mkdir } from "fs/promises"
 
-interface Action {
+interface PinnedAction {
 	action: string
 	tag: string
 	sha: string
 	published_at: string
 }
 
-const state: { actions: Action[] } = await Bun.file("state.json").json()
+const pinsSource: { actions: PinnedAction[] } = await Bun.file("data/pins.json").json()
 
 // Optimise: strip published_at, use compact tuples [action, sha, tag].
-const pins: [string, string, string][] = state.actions.map(
+const pins: [string, string, string][] = pinsSource.actions.map(
 	({ action, sha, tag }) => [action, sha, tag],
 )
 
+await mkdir("src/pins", { recursive: true })
 await Bun.write(
-	"src/data.gen.ts",
+	"src/pins/data.gen.ts",
 	`export default ${JSON.stringify(pins)} as const;\n`,
 )
 

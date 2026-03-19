@@ -1,4 +1,4 @@
-import pins from "./data.gen"
+import pins from "./pins/data.gen"
 
 const input = document.querySelector<HTMLInputElement>("#search")!
 const results = document.querySelector<HTMLElement>("#results")!

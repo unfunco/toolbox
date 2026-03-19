@@ -3,4 +3,4 @@
 .idea/
 Thumbs.db
 dist/
-src/data.gen.ts
+src/pins/data.gen.ts
