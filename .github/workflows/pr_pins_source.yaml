@@ -1,36 +1,36 @@
-name: PR / Actions
+name: PR / Pins Source
 
 on:
   pull_request: { }
 
 jobs:
   verify:
-    name: Verify
+    name: Verify Pins Source
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
       uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
         fetch-depth: 0
-    - name: Validate actions.txt
+    - name: Validate src/pins/actions.txt
       run: |
         set -euo pipefail
 
         echo "Checking alphabetical sort order..."
-        if ! LC_ALL=C sort -c actions.txt; then
-          >&2 echo "actions.txt must be sorted alphabetically."
+        if ! LC_ALL=C sort -c src/pins/actions.txt; then
+          >&2 echo "src/pins/actions.txt must be sorted alphabetically."
           exit 1
         fi
 
         echo "Checking for trailing whitespace..."
-        if grep -nE '[[:blank:]]+$' actions.txt; then
-          >&2 echo "actions.txt contains trailing whitespace."
+        if grep -nE '[[:blank:]]+$' src/pins/actions.txt; then
+          >&2 echo "src/pins/actions.txt contains trailing whitespace."
           exit 1
         fi
 
         echo "Validating line format (org/repo)..."
-        if grep -nEv '^[A-Za-z0-9-]+/[A-Za-z0-9_.-]+$' actions.txt; then
-          >&2 echo "Every line in actions.txt must match the format org/repo."
+        if grep -nEv '^[A-Za-z0-9-]+/[A-Za-z0-9_.-]+$' src/pins/actions.txt; then
+          >&2 echo "Every line in src/pins/actions.txt must match the format org/repo."
           exit 1
         fi
     - name: Check new GitHub Actions
@@ -41,11 +41,11 @@ jobs:
         set -euo pipefail
 
         echo "Identifying added actions..."
-        git show "${BASE_SHA}:actions.txt" 2>/dev/null | \
+        git show "${BASE_SHA}:src/pins/actions.txt" 2>/dev/null | \
           LC_ALL=C sort > actions.base.txt || \
           touch actions.base.txt
 
-        LC_ALL=C sort actions.txt > actions.current.txt
+        LC_ALL=C sort src/pins/actions.txt > actions.current.txt
 
         added_lines=$(comm -13 actions.base.txt actions.current.txt)
 

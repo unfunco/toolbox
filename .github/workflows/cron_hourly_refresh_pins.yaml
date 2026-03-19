@@ -1,4 +1,4 @@
-name: Cron / Hourly Update Actions Versions
+name: Cron / Hourly Refresh Pins
 
 on:
   schedule:
@@ -12,11 +12,11 @@ on:
 
 concurrency:
   cancel-in-progress: false
-  group: hourly-action-version-updates
+  group: hourly-pins-refresh
 
 jobs:
-  update-actions-versions:
-    name: Update Actions Versions
+  refresh-pins:
+    name: Refresh Pins
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
@@ -44,20 +44,20 @@ jobs:
 
         echo "Selected shard $shard"
         echo "shard=$shard" >> "$GITHUB_OUTPUT"
-    - name: Refresh selected shard in state.json
-      id: update-state
+    - name: Refresh selected shard in data/pins.json
+      id: update-pins
       env:
         GITHUB_TOKEN: ${{ github.token }}
       run: |
         set -euo pipefail
 
-        python3 .github/scripts/update_actions_state.py \
-          --actions-file actions.txt \
-          --state-file state.json \
+        python3 .github/scripts/update_pins.py \
+          --actions-file src/pins/actions.txt \
+          --pins-file data/pins.json \
           --shard "${{ steps.shard.outputs.shard }}"
       timeout-minutes: 5
     - name: Verify GitHub App configuration
-      if: steps.update-state.outputs.changed == 'true'
+      if: steps.update-pins.outputs.changed == 'true'
       env:
         MERGE_SIMPSON_APP_ID: ${{ vars.MERGE_SIMPSON_APP_ID }}
         MERGE_SIMPSON_APP_PRIVATE_KEY: ${{ secrets.MERGE_SIMPSON_APP_PRIVATE_KEY }}
@@ -68,7 +68,7 @@ jobs:
         : "${MERGE_SIMPSON_APP_PRIVATE_KEY:?Set repository secret MERGE_SIMPSON_APP_PRIVATE_KEY.}"
     - name: Create GitHub App token
       id: app-token
-      if: steps.update-state.outputs.changed == 'true'
+      if: steps.update-pins.outputs.changed == 'true'
       uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859 # v3.0.0
       with:
         app-id: ${{ vars.MERGE_SIMPSON_APP_ID }}
@@ -77,7 +77,7 @@ jobs:
         permission-pull-requests: write
     - name: Look up GitHub App bot user
       id: app-user
-      if: steps.update-state.outputs.changed == 'true'
+      if: steps.update-pins.outputs.changed == 'true'
       env:
         GH_TOKEN: ${{ steps.app-token.outputs.token }}
       run: |
@@ -90,7 +90,7 @@ jobs:
       env:
         APP_TOKEN: ${{ steps.app-token.outputs.token }}
         GH_TOKEN: ${{ steps.app-token.outputs.token }}
-      if: steps.update-state.outputs.changed == 'true'
+      if: steps.update-pins.outputs.changed == 'true'
       run: |
         set -euo pipefail
 
@@ -99,24 +99,24 @@ jobs:
         git config user.name "${{ steps.app-token.outputs.app-slug }}[bot]"
         git config user.email "${{ steps.app-user.outputs.user-id }}+${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com"
 
-        branch="update-actions-shard-${{ steps.shard.outputs.shard }}-$(date -u +%Y%m%d%H%M%S)"
+        branch="refresh-pins-shard-${{ steps.shard.outputs.shard }}-$(date -u +%Y%m%d%H%M%S)"
 
         git checkout -b "$branch"
-        git add state.json
+        git add data/pins.json
 
         staged_files="$(git diff --cached --name-only)"
-        if [[ "$staged_files" != "state.json" ]]; then
-          >&2 echo "Expected only state.json to be staged, got:"
+        if [[ "$staged_files" != "data/pins.json" ]]; then
+          >&2 echo "Expected only data/pins.json to be staged, got:"
           >&2 echo "$staged_files"
           exit 1
         fi
 
-        git commit -m "chore: Update GitHub Actions for shard ${{ steps.shard.outputs.shard }}"
+        git commit -m "chore: Refresh Pins for shard ${{ steps.shard.outputs.shard }}"
         git push "https://x-access-token:${APP_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "$branch"
 
         pr_url="$(gh pr create \
-          --title "chore: Update versions for shard ${{ steps.shard.outputs.shard }}" \
-          --body "This updates the versions of GitHub Actions in shard ${{ steps.shard.outputs.shard }} to the latest versions published on the GitHub Marketplace." \
+          --title "chore: Refresh Pins for shard ${{ steps.shard.outputs.shard }}" \
+          --body "This refreshes the Pins data in shard ${{ steps.shard.outputs.shard }} using the latest versions published on the GitHub Marketplace." \
           --label "automata 🤖" \
           --label "chore 🧹" \
           --head "$branch" \
@@ -126,7 +126,7 @@ jobs:
     - name: Enable pull request auto-merge
       env:
         GH_TOKEN: ${{ steps.app-token.outputs.token }}
-      if: steps.update-state.outputs.changed == 'true'
+      if: steps.update-pins.outputs.changed == 'true'
       run: |
         set -euo pipefail
 

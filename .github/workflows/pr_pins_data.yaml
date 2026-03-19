@@ -1,24 +1,24 @@
-name: PR / State Updates
+name: PR / Pins Data
 
 on:
   pull_request: { }
 
 jobs:
-  verify-state-json:
-    name: Verify state.json
+  verify-pins-data:
+    name: Verify Pins Data
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
       uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
         fetch-depth: 0
-    - name: Validate state.json updates
+    - name: Validate pins data updates
       env:
         GH_TOKEN: ${{ github.token }}
       run: |
         set -euo pipefail
 
-        python3 .github/scripts/validate_state_update_pr.py \
-          --actions-file actions.txt \
-          --state-file state.json \
+        python3 .github/scripts/validate_pins_pr.py \
+          --actions-file src/pins/actions.txt \
+          --pins-file data/pins.json \
           --base-ref "${{ github.event.pull_request.base.sha }}"

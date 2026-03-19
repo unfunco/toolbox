@@ -30,10 +30,10 @@ class GitHubNotFoundError(GitHubApiError):
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Refresh a deterministic 1/24th shard of action metadata in state.json."
+        description="Refresh a deterministic 1/24th shard of pins metadata."
     )
     parser.add_argument("--actions-file", required=True)
-    parser.add_argument("--state-file", required=True)
+    parser.add_argument("--pins-file", required=True)
     parser.add_argument("--shard", required=True, type=int)
     return parser.parse_args()
 
@@ -41,7 +41,7 @@ def parse_args() -> argparse.Namespace:
 def api_headers() -> dict[str, str]:
     headers = {
         "Accept": "application/vnd.github+json",
-        "User-Agent": "action-pins-updater",
+        "User-Agent": "github-toolbox-pins-updater",
         "X-GitHub-Api-Version": "2022-11-28",
     }
 
@@ -172,7 +172,7 @@ def load_action_names(actions_file: Path) -> list[str]:
     return actions
 
 
-def parse_state_entries(raw_text: str) -> dict[str, dict[str, str]]:
+def parse_pin_entries(raw_text: str) -> dict[str, dict[str, str]]:
     raw_text = raw_text.strip()
     if not raw_text:
         return {}
@@ -183,18 +183,16 @@ def parse_state_entries(raw_text: str) -> dict[str, dict[str, str]]:
 
     entries = raw_state.get("actions")
     if not isinstance(entries, list):
-        raise SystemExit("state.json must contain an object with an 'actions' array.")
+        raise SystemExit("Pins data must contain an object with an 'actions' array.")
 
     by_action: dict[str, dict[str, str]] = {}
     for entry in entries:
         if not isinstance(entry, dict):
-            raise SystemExit("Each state.json action entry must be an object.")
+            raise SystemExit("Each pins data entry must be an object.")
 
         action_name = entry.get("action")
         if not isinstance(action_name, str) or not action_name:
-            raise SystemExit(
-                "Each state.json action entry must include a non-empty 'action'."
-            )
+            raise SystemExit("Each pins data entry must include a non-empty 'action'.")
 
         by_action[action_name] = {
             "action": action_name,
@@ -206,14 +204,14 @@ def parse_state_entries(raw_text: str) -> dict[str, dict[str, str]]:
     return by_action
 
 
-def load_state_entries(state_file: Path) -> dict[str, dict[str, str]]:
-    if not state_file.exists():
+def load_pin_entries(pins_file: Path) -> dict[str, dict[str, str]]:
+    if not pins_file.exists():
         return {}
 
-    return parse_state_entries(state_file.read_text())
+    return parse_pin_entries(pins_file.read_text())
 
 
-def serialize_state(entries_by_action: dict[str, dict[str, str]]) -> str:
+def serialize_pins(entries_by_action: dict[str, dict[str, str]]) -> str:
     ordered_entries = [
         entries_by_action[action] for action in sorted(entries_by_action)
     ]
@@ -227,7 +225,7 @@ def main() -> int:
         raise SystemExit("--shard must be between 0 and 23.")
 
     actions_file = Path(args.actions_file)
-    state_file = Path(args.state_file)
+    pins_file = Path(args.pins_file)
 
     all_actions = load_action_names(actions_file)
     selected_actions = [
@@ -241,14 +239,14 @@ def main() -> int:
         + (", ".join(selected_actions) if selected_actions else "(none)")
     )
 
-    current_entries = load_state_entries(state_file)
+    current_entries = load_pin_entries(pins_file)
     for action_name in selected_actions:
         print(f"Resolving latest metadata for {action_name}...")
         current_entries[action_name] = resolve_action_metadata(action_name)
 
-    original_text = state_file.read_text() if state_file.exists() else ""
-    next_text = serialize_state(current_entries)
-    state_file.write_text(next_text)
+    original_text = pins_file.read_text() if pins_file.exists() else ""
+    next_text = serialize_pins(current_entries)
+    pins_file.write_text(next_text)
 
     github_output = os.environ.get("GITHUB_OUTPUT")
     if github_output:
