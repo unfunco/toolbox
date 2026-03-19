@@ -21,5 +21,6 @@ codecov/codecov-action
 docker/build-push-action
 docker/login-action
 dorny/paths-filter
+googleapis/release-please-action
 hashicorp/setup-terraform
 peter-evans/create-pull-request
