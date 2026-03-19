@@ -1,5 +1,6 @@
 Azure/docker-login
 Azure/webapps-deploy
+actions/cache
 actions/checkout
 actions/configure-pages
 actions/create-release
@@ -15,6 +16,10 @@ actions/setup-python
 actions/stale
 actions/upload-artifact
 actions/upload-release-asset
+aws-actions/configure-aws-credentials
 codecov/codecov-action
+docker/build-push-action
+docker/login-action
+dorny/paths-filter
 hashicorp/setup-terraform
 peter-evans/create-pull-request
