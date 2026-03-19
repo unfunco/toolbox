@@ -103,6 +103,12 @@
       "published_at": "2026-02-26T18:21:17Z"
     },
     {
+      "action": "actions/upload-release-asset",
+      "tag": "v1.0.2",
+      "sha": "e8f9f06c4b078e705bd2ea027f0926603fc9b4d5",
+      "published_at": "2020-02-10T08:01:38Z"
+    },
+    {
       "action": "aws-actions/configure-aws-credentials",
       "tag": "v6.0.0",
       "sha": "8df5847569e6427dd6c4fb1cf565c83acfa8afa7",
