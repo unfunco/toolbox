@@ -1,0 +1,43 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-canvas: #ffffff;
+  --color-canvas-subtle: #f6f8fa;
+  --color-border: #d0d7de;
+  --color-fg: #1f2328;
+  --color-fg-muted: #656d76;
+  --color-accent: #0969da;
+  --color-tab-active: #fd8c73;
+  --color-success: #1a7f37;
+  --color-hover: #eaeef2;
+}
+
+/* Tab states managed by JavaScript */
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.tab-btn:hover {
+  background-color: rgba(208, 215, 222, 0.32);
+  transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+}
+
+.tab-btn.selected {
+  font-weight: 600;
+  border-bottom-color: var(--color-tab-active);
+}
+
+/* Pin button states */
+.pin:hover {
+  border-color: var(--color-fg-muted);
+  background-color: var(--color-hover);
+}
+
+.pin.copied {
+  border-color: var(--color-success);
+  color: var(--color-success);
+}

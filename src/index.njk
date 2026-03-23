@@ -1,0 +1,73 @@
+<!doctype html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="initial-scale=1,width=device-width" name="viewport" />
+    <title>Toolbox</title>
+    <link href="/styles.css" rel="stylesheet" />
+  </head>
+  <body class="font-sans bg-canvas text-fg leading-normal">
+    <div class="bg-canvas-subtle pt-4 border-b border-border mb-6">
+      <div class="max-w-5xl mx-auto px-4">
+        <div class="text-xl font-semibold mb-4 flex items-center gap-2 text-fg-muted">
+          <svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16">
+            <path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8ZM5 12.25a.25.25 0 0 1 .25-.25h3.5a.25.25 0 0 1 .25.25v3.25a.25.25 0 0 1-.4.2l-1.45-1.087a.249.249 0 0 0-.3 0L5.4 15.7a.25.25 0 0 1-.4-.2Z" fill="currentColor"></path>
+          </svg>
+          unfunco / <strong class="text-accent">toolbox</strong>
+        </div>
+        <nav class="flex gap-2 overflow-x-auto">
+          <button
+            class="tab-btn selected border-b-2 border-transparent cursor-pointer flex items-center gap-2 rounded-t-md bg-transparent px-4 py-2 text-sm text-fg"
+            data-target="actions">
+            <svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16">
+              <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.441a.25.25 0 0 1 .379-.214Z" fill="currentColor"></path>
+            </svg>
+            GitHub Actions
+          </button>
+          <button
+            class="tab-btn border-b-2 border-transparent cursor-pointer flex items-center gap-2 rounded-t-md bg-transparent px-4 py-2 text-sm text-fg"
+            data-target="issues">
+            <svg aria-hidden="true" height="16" viewBox="0 0 16 16" width="16">
+              <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" fill="currentColor"></path>
+              <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z" fill="currentColor"></path>
+            </svg>
+            Issues
+          </button>
+        </nav>
+      </div>
+    </div>
+
+    <div class="max-w-5xl mx-auto px-4">
+      <div id="actions" class="tab-content active">
+        <div class="overflow-hidden mb-4 rounded-md border border-border bg-canvas">
+          <div class="border-b border-border bg-canvas-subtle p-4">
+            <p class="text-sm text-fg-muted">
+              Search GitHub Actions and copy pinned
+              <code class="rounded bg-canvas-subtle px-1 py-0.5 text-xs">uses:</code>
+              lines.
+            </p>
+          </div>
+          <div class="p-4">
+            <input
+              id="search"
+              type="text"
+              placeholder="Search GitHub Actions…"
+              autofocus
+              class="w-full rounded-md border border-border bg-canvas px-3 py-1.5 text-sm leading-5 text-fg outline-none transition-[color,background-color,box-shadow,border-color] duration-75 ease-out focus:border-accent focus:shadow-[0_0_0_3px_rgba(9,105,218,0.3)]" />
+            <div id="results" class="mt-4 flex flex-col gap-2"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="issues" class="tab-content">
+        <div class="overflow-hidden mb-4 rounded-md border border-border bg-canvas">
+          <div class="p-12 text-center text-fg-muted">
+            <h3 class="text-base font-semibold">Future features will go here</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/main.js"></script>
+  </body>
+</html>

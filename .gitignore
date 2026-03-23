@@ -1,6 +1,10 @@
+# Eleventy
+.cache/
+_site/
+
 # General
 .DS_Store
 .idea/
 Thumbs.db
-dist/
+node_modules/
 src/pins/data.gen.ts

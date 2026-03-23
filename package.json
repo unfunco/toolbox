@@ -1,0 +1,19 @@
+{
+	"devDependencies": {
+		"@11ty/eleventy": "3.1.5",
+		"@tailwindcss/cli": "4.2.2",
+		"@unfunco/prettier-plugin-yaml": "0.2.0",
+		"prettier": "3.8.1",
+		"tailwindcss": "4.2.2"
+	},
+	"license": "MIT",
+	"name": "@unfunco/toolbox",
+	"private": true,
+	"scripts": {
+		"build": "bun run src/build.ts",
+		"fmt:check": "prettier --check .",
+		"fmt:fix": "prettier --write .",
+		"start": "bunx --bun eleventy --serve --config=eleventy.config.ts"
+	},
+	"type": "module"
+}
