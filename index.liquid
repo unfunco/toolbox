@@ -1,0 +1,31 @@
+---
+layout: layouts/base.liquid
+title: Pin GitHub Actions
+description: Search pinned GitHub Actions versions and copy ready-to-use uses lines.
+---
+
+<section aria-labelledby="search-title" class="search-panel" id="search-panel">
+	<div class="panel-heading">
+		<h1 id="search-title">Search GitHub Actions</h1>
+	</div>
+	<div class="search-box">
+		<label class="search-label" for="search">Action name</label>
+		<input
+			autocapitalize="off"
+			autocomplete="off"
+			autocorrect="off"
+			id="search"
+			name="search"
+			placeholder="Search GitHub Actions..."
+			spellcheck="false"
+			type="text"
+		>
+		<p class="search-status" id="search-status" role="status">
+			Loading pinned actions...
+		</p>
+	</div>
+	<div aria-live="polite" class="results" id="results"></div>
+	<noscript>
+		<p class="noscript">JavaScript is required to search and copy pins on this page.</p>
+	</noscript>
+</section>

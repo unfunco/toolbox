@@ -2,5 +2,6 @@
 .DS_Store
 .idea/
 Thumbs.db
+node_modules/
 dist/
-src/pins/data.gen.ts
+pins/data.gen.ts

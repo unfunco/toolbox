@@ -2,7 +2,7 @@ name: Cron / Hourly Refresh Pins
 
 on:
   schedule:
-  - cron: "26 * * * *"
+  - cron: '26 * * * *'
   workflow_dispatch:
     inputs:
       shard:
@@ -44,7 +44,7 @@ jobs:
 
         echo "Selected shard $shard"
         echo "shard=$shard" >> "$GITHUB_OUTPUT"
-    - name: Refresh selected shard in data/pins.json
+    - name: Refresh selected shard in _data/pins.json
       id: update-pins
       env:
         GITHUB_TOKEN: ${{ github.token }}
@@ -52,8 +52,8 @@ jobs:
         set -euo pipefail
 
         python3 .github/scripts/update_pins.py \
-          --actions-file src/pins/actions.txt \
-          --pins-file data/pins.json \
+          --actions-file pins/actions.txt \
+          --pins-file _data/pins.json \
           --shard "${{ steps.shard.outputs.shard }}"
       timeout-minutes: 5
     - name: Verify GitHub App configuration
@@ -102,11 +102,11 @@ jobs:
         branch="refresh-pins-shard-${{ steps.shard.outputs.shard }}-$(date -u +%Y%m%d%H%M%S)"
 
         git checkout -b "$branch"
-        git add data/pins.json
+        git add _data/pins.json
 
         staged_files="$(git diff --cached --name-only)"
-        if [[ "$staged_files" != "data/pins.json" ]]; then
-          >&2 echo "Expected only data/pins.json to be staged, got:"
+        if [[ "$staged_files" != "_data/pins.json" ]]; then
+          >&2 echo "Expected only _data/pins.json to be staged, got:"
           >&2 echo "$staged_files"
           exit 1
         fi

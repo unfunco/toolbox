@@ -1,0 +1,19 @@
+{
+  "devDependencies": {
+    "@11ty/eleventy": "3.1.5",
+    "@fontsource-variable/mona-sans": "5.2.8",
+    "@unfunco/prettier-plugin-yaml": "0.2.0",
+    "prettier": "3.8.1"
+  },
+  "license": "MIT",
+  "name": "@unfunco/toolbox",
+  "scripts": {
+    "build": "bun run clean && bunx --bun @11ty/eleventy --config=eleventy.config.ts",
+    "clean": "rm -rf dist",
+    "fmt:check": "bunx prettier --check .",
+    "fmt:fix": "bunx prettier --write .",
+    "start": "bunx --bun @11ty/eleventy --serve --config=eleventy.config.ts"
+  },
+  "type": "module",
+  "version": "0.0.0"
+}
