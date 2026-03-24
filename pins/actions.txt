@@ -16,6 +16,7 @@ actions/setup-python
 actions/stale
 actions/upload-artifact
 actions/upload-release-asset
+aws-actions/amazon-ecr-login
 aws-actions/configure-aws-credentials
 codecov/codecov-action
 docker/build-push-action
