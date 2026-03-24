@@ -15,5 +15,5 @@
     "start": "bunx --bun @11ty/eleventy --serve --config=eleventy.config.ts"
   },
   "type": "module",
-  "version": "0.0.0"
+  "version": "0.1.0"
 }
