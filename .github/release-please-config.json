@@ -17,6 +17,11 @@
           "hidden": false,
           "section": "🧹 Miscellaneous",
           "type": "chore"
+        },
+        {
+          "hidden": true,
+          "section": "🤖 Automation",
+          "type": "ci"
         }
       ],
       "draft": true,
