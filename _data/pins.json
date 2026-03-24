@@ -8,9 +8,9 @@
     },
     {
       "action": "Azure/webapps-deploy",
-      "tag": "v2.2.18",
-      "sha": "b2037aa567123fe6dfb0f4a95969067d76e35d7b",
-      "published_at": "2026-03-05T06:26:24Z"
+      "tag": "v2.2.19",
+      "sha": "a8bbbc2169ef22cf0f6fd72f9d12e8ca89cdfd85",
+      "published_at": "2026-03-24T18:57:42Z"
     },
     {
       "action": "actions/cache",
