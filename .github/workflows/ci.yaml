@@ -61,6 +61,8 @@ jobs:
     name: Release?
     if: ${{ github.ref == 'refs/heads/main' }}
     needs: [ build ]
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
     permissions:
       contents: write
       pull-requests: write
@@ -96,7 +98,7 @@ jobs:
       run: gh release edit ${{ steps.release.outputs.tag_name }} --draft=false
 
   deploy:
-    if: ${{ github.ref == 'refs/heads/main' }}
+    if: ${{ github.ref == 'refs/heads/main' && needs.release.outputs.release_created == 'true' }}
     name: Deploy
     concurrency:
       cancel-in-progress: false
@@ -104,7 +106,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    needs: [ build ]
+    needs: [ build, release ]
     permissions:
       contents: read
       id-token: write
