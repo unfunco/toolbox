@@ -13,6 +13,12 @@
       "published_at": "2026-03-24T18:57:42Z"
     },
     {
+      "action": "actions/attest-build-provenance",
+      "tag": "v4.1.0",
+      "sha": "a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32",
+      "published_at": "2026-02-26T23:11:12Z"
+    },
+    {
       "action": "actions/cache",
       "tag": "v5.0.4",
       "sha": "668228422ae6a00e4ad889ee87cd7109ec5666a7",
@@ -59,6 +65,12 @@
       "tag": "v6.0.1",
       "sha": "634933edcd8ababfe52f92936142cc22ac488b1b",
       "published_at": "2025-09-04T17:56:16Z"
+    },
+    {
+      "action": "actions/setup-copilot",
+      "tag": "v0.0.5",
+      "sha": "01f2415f3de9e622b1cc969773f108741021a606",
+      "published_at": "2026-03-17T03:15:24Z"
     },
     {
       "action": "actions/setup-dotnet",
