@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2](https://github.com/unfunco/toolbox/compare/v0.1.1...v0.1.2) (2026-03-26)
+
+
+### 🧹 Miscellaneous
+
+* Add more actions for indexing ([ca9fc6b](https://github.com/unfunco/toolbox/commit/ca9fc6b39975e68b7374d58e1de6db62d5ad6662))
+
 ## [0.1.1](https://github.com/unfunco/toolbox/compare/v0.1.0...v0.1.1) (2026-03-25)
 
 
