@@ -134,9 +134,9 @@
     },
     {
       "action": "codecov/codecov-action",
-      "tag": "v5.5.3",
-      "sha": "1af58845a975a7985b0beb0cbe6fbbb71a41dbad",
-      "published_at": "2026-03-18T18:20:15Z"
+      "tag": "v6.0.0",
+      "sha": "57e3a136b779b570ffcdbf80b3bdc90e7fab3de2",
+      "published_at": "2026-03-26T14:01:32Z"
     },
     {
       "action": "docker/build-push-action",
