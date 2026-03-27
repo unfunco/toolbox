@@ -9,8 +9,8 @@
     {
       "action": "Azure/webapps-deploy",
       "tag": "v2.2.19",
-      "sha": "a8bbbc2169ef22cf0f6fd72f9d12e8ca89cdfd85",
-      "published_at": "2026-03-24T18:57:42Z"
+      "sha": "5cfb776471c748b351e1ebf5770e208a54ace016",
+      "published_at": "2026-03-27T12:27:13Z"
     },
     {
       "action": "actions/add-to-project",
