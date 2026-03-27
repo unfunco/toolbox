@@ -13,6 +13,12 @@
       "published_at": "2026-03-24T18:57:42Z"
     },
     {
+      "action": "actions/add-to-project",
+      "tag": "v1.0.2",
+      "sha": "244f685bbc3b7adfa8466e08b698b5577571133e",
+      "published_at": "2024-06-24T21:04:37Z"
+    },
+    {
       "action": "actions/attest-build-provenance",
       "tag": "v4.1.0",
       "sha": "a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32",
