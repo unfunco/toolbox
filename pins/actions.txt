@@ -28,6 +28,7 @@ actions/upload-pages-artifact
 actions/upload-release-asset
 aws-actions/amazon-ecr-login
 aws-actions/configure-aws-credentials
+cli/gh-extension-precompile
 codecov/codecov-action
 docker/build-push-action
 docker/login-action
