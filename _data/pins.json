@@ -43,6 +43,12 @@
       "published_at": "2026-03-25T17:00:49Z"
     },
     {
+      "action": "actions/create-github-app-token",
+      "tag": "v3.0.0",
+      "sha": "f8d387b68d61c58ab83c6c016672934102569859",
+      "published_at": "2026-03-14T00:22:12Z"
+    },
+    {
       "action": "actions/create-release",
       "tag": "v1.1.4",
       "sha": "0cb9c9b65d5d1901c1f53e5e66eaf4afd303e70e",
