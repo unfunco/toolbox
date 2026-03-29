@@ -111,12 +111,12 @@ jobs:
           exit 1
         fi
 
-        git commit -m "ci(pins): Refresh Pins for shard ${{ steps.shard.outputs.shard }}"
+        git commit -m "ci(pins): Refresh pins for shard ${{ steps.shard.outputs.shard }}"
         git push "https://x-access-token:${APP_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "$branch"
 
         pr_url="$(gh pr create \
-          --title "ci(pins): Refresh Pins for shard ${{ steps.shard.outputs.shard }}" \
-          --body "This refreshes the Pins data in shard ${{ steps.shard.outputs.shard }} using the latest versions published on the GitHub Marketplace." \
+          --title "ci(pins): Refresh pins for shard ${{ steps.shard.outputs.shard }}" \
+          --body "This refreshes the pin data in shard ${{ steps.shard.outputs.shard }} using the latest versions published on the GitHub Marketplace." \
           --label "automata 🤖" \
           --label "chore 🧹" \
           --head "$branch" \
