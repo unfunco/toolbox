@@ -71,7 +71,7 @@ function renderResults(query) {
 
   if (normalizedQuery.length === 0) {
     renderEmpty(`Start typing to search ${state.pins.length} pinned actions.`)
-    setStatus(`Ready. Search ${state.pins.length} pinned actions.`)
+    setStatus('')
     return
   }
 
