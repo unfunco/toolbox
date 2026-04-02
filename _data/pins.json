@@ -170,9 +170,9 @@
     },
     {
       "action": "aws-actions/amazon-ecr-login",
-      "tag": "v2.1.1",
-      "sha": "183a1442edf41672e66566b7fc560e297a290896",
-      "published_at": "2026-03-24T17:48:00Z"
+      "tag": "v2.1.2",
+      "sha": "f2e9fc6c2b355c1890b65e6f6f0e2ac3e6e22f78",
+      "published_at": "2026-04-02T00:00:09Z"
     },
     {
       "action": "aws-actions/configure-aws-credentials",
