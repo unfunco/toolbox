@@ -200,9 +200,9 @@
     },
     {
       "action": "docker/login-action",
-      "tag": "v4.0.0",
-      "sha": "b45d80f862d83dbcd57f89517bcf500b2ab88fb2",
-      "published_at": "2026-03-04T09:00:21Z"
+      "tag": "v4.1.0",
+      "sha": "4907a6ddec9925e35a0a9e82d7399ccc52663121",
+      "published_at": "2026-04-02T17:24:23Z"
     },
     {
       "action": "dorny/paths-filter",
