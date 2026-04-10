@@ -98,9 +98,9 @@
     },
     {
       "action": "actions/github-script",
-      "tag": "v8",
-      "sha": "ed597411d8f924073f98dfc5c65a23a2325f34cd",
-      "published_at": "2025-09-04T14:57:03Z"
+      "tag": "v9.0.0",
+      "sha": "3a2844b7e9c422d3c10d287c895573f7108da1b3",
+      "published_at": "2026-04-09T22:57:15Z"
     },
     {
       "action": "actions/labeler",
