@@ -1,5 +1,12 @@
 Azure/docker-login
 Azure/webapps-deploy
+Homebrew/actions/cache-homebrew-prefix
+Homebrew/actions/create-or-update-issue
+Homebrew/actions/git-try-push
+Homebrew/actions/git-user-config
+Homebrew/actions/setup-commit-signing
+Homebrew/actions/setup-homebrew
+Homebrew/actions/setup-ruby
 actions/add-to-project
 actions/ai-inference
 actions/attest-build-provenance
@@ -34,6 +41,8 @@ codecov/codecov-action
 docker/build-push-action
 docker/login-action
 dorny/paths-filter
+github/codeql-action/analyze
+github/codeql-action/init
 github/codeql-action/upload-sarif
 googleapis/release-please-action
 hashicorp/setup-terraform
