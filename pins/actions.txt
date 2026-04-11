@@ -26,6 +26,7 @@ actions/stale
 actions/upload-artifact
 actions/upload-pages-artifact
 actions/upload-release-asset
+anthropics/claude-code-action
 aws-actions/amazon-ecr-login
 aws-actions/configure-aws-credentials
 cli/gh-extension-precompile
@@ -33,6 +34,9 @@ codecov/codecov-action
 docker/build-push-action
 docker/login-action
 dorny/paths-filter
+github/codeql-action/upload-sarif
 googleapis/release-please-action
 hashicorp/setup-terraform
 peter-evans/create-pull-request
+tfsec/tfsec-sarif-action
+unfunco/setup-gum

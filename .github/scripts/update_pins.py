@@ -107,15 +107,22 @@ def choose_best_tag(tags: list[dict]) -> str:
     return tags[0]["name"]
 
 
+def repo_for_action(action_name: str) -> str:
+    parts = action_name.split("/", 2)
+    if len(parts) < 2:
+        raise GitHubApiError(f"Invalid action name: {action_name!r}")
+    return f"{parts[0]}/{parts[1]}"
+
+
 def resolve_commit_for_ref(action_name: str, ref_name: str) -> dict:
     encoded_ref = urllib.parse.quote(ref_name, safe="")
-    return github_get_json(f"/repos/{action_name}/commits/{encoded_ref}")
+    return github_get_json(f"/repos/{repo_for_action(action_name)}/commits/{encoded_ref}")
 
 
 def release_for_tag(action_name: str, tag_name: str) -> dict | None:
     encoded_tag = urllib.parse.quote(tag_name, safe="")
     try:
-        return github_get_json(f"/repos/{action_name}/releases/tags/{encoded_tag}")
+        return github_get_json(f"/repos/{repo_for_action(action_name)}/releases/tags/{encoded_tag}")
     except GitHubNotFoundError:
         return None
 
@@ -150,13 +157,14 @@ def resolve_action_metadata_for_tag(
 
 
 def resolve_action_metadata(action_name: str) -> dict[str, str]:
+    repo = repo_for_action(action_name)
     try:
-        latest_release = github_get_json(f"/repos/{action_name}/releases/latest")
+        latest_release = github_get_json(f"/repos/{repo}/releases/latest")
         return resolve_action_metadata_for_tag(
             action_name, latest_release["tag_name"], release=latest_release
         )
     except GitHubNotFoundError:
-        tags = github_get_json(f"/repos/{action_name}/tags?per_page=100")
+        tags = github_get_json(f"/repos/{repo}/tags?per_page=100")
         if not tags:
             raise GitHubApiError(
                 f"{action_name} has no published releases or tags to pin."

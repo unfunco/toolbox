@@ -28,9 +28,9 @@ jobs:
           exit 1
         fi
 
-        echo "Validating line format (org/repo)..."
-        if grep -nEv '^[A-Za-z0-9-]+/[A-Za-z0-9_.-]+$' pins/actions.txt; then
-          >&2 echo "Every line in pins/actions.txt must match the format org/repo."
+        echo "Validating line format (org/repo or org/repo/subpath)..."
+        if grep -nEv '^[A-Za-z0-9-]+/[A-Za-z0-9_.-]+(/[A-Za-z0-9_.-]+)*$' pins/actions.txt; then
+          >&2 echo "Every line in pins/actions.txt must match the format org/repo or org/repo/subpath."
           exit 1
         fi
     - name: Check new GitHub Actions
@@ -60,20 +60,35 @@ jobs:
         while IFS= read -r line; do
           [[ -z "$line" ]] && continue
 
-          if ! [[ "$line" =~ ^[A-Za-z0-9-]+/[A-Za-z0-9_.-]+$ ]]; then
+          if ! [[ "$line" =~ ^[A-Za-z0-9-]+/[A-Za-z0-9_.-]+(/[A-Za-z0-9_.-]+)*$ ]]; then
             >&2 echo "Invalid format: $line"
             exit 1
           fi
 
+          # Extract owner/repo and optional sub-path
+          owner_repo=$(echo "$line" | cut -d/ -f1,2)
+          subpath=$(echo "$line" | cut -s -d/ -f3-)
+
           echo "Checking $line..."
-          if ! gh api "repos/$line" --silent >/dev/null; then
-            >&2 echo "Repository does not exist or is not accessible: $line"
+          if ! gh api "repos/$owner_repo" --silent >/dev/null; then
+            >&2 echo "Repository does not exist or is not accessible: $owner_repo"
             exit 1
           fi
 
-          if gh api "repos/$line/contents/action.yml" --silent >/dev/null 2>&1 \
-            || gh api "repos/$line/contents/action.yaml" --silent >/dev/null 2>&1 \
-            || gh api "repos/$line/contents/Dockerfile" --silent >/dev/null 2>&1; then
+          if [[ -n "$subpath" ]]; then
+            if gh api "repos/$owner_repo/contents/$subpath/action.yml" --silent >/dev/null 2>&1 \
+              || gh api "repos/$owner_repo/contents/$subpath/action.yaml" --silent >/dev/null 2>&1; then
+              echo "Verified GitHub Action: $line"
+              continue
+            fi
+
+            >&2 echo "$line does not appear to be a GitHub Action (missing $subpath/action.yml or $subpath/action.yaml)."
+            exit 1
+          fi
+
+          if gh api "repos/$owner_repo/contents/action.yml" --silent >/dev/null 2>&1 \
+            || gh api "repos/$owner_repo/contents/action.yaml" --silent >/dev/null 2>&1 \
+            || gh api "repos/$owner_repo/contents/Dockerfile" --silent >/dev/null 2>&1; then
             echo "Verified GitHub Action repository: $line"
             continue
           fi
