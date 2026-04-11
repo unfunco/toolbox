@@ -107,12 +107,19 @@ code {
 }
 
 .site-header {
-  padding: 2rem 0;
+  padding: 2rem 0 1.5rem;
   border-bottom: 1px solid var(--color-border);
   margin-bottom: 3rem;
 }
 
 .site-header .shell {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1.25rem;
+}
+
+.site-header-main {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -139,11 +146,13 @@ code {
 
 .site-nav {
   display: flex;
-  gap: 1.5rem;
+  gap: 1rem;
+  align-items: center;
 }
 
 .site-nav a {
   color: var(--color-muted);
+  display: flex;
   text-decoration: none;
   font-size: 0.9em;
 }
@@ -152,8 +161,38 @@ code {
   color: var(--color-text);
 }
 
+.site-tabs {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.site-tab {
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  color: var(--color-muted);
+  font-size: 0.9em;
+  padding: 0.55rem 0.9rem;
+  text-decoration: none;
+  transition:
+    border-color 0.1s,
+    background 0.1s,
+    color 0.1s;
+}
+
+.site-tab:hover,
+.site-tab.is-active {
+  background: var(--color-hover);
+  border-color: var(--color-text);
+  color: var(--color-text);
+}
+
 .page {
   padding-bottom: 4rem;
+}
+
+.tool-intro {
+  margin-bottom: 2.5rem;
 }
 
 .search-panel {
@@ -161,14 +200,40 @@ code {
 }
 
 .panel-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
   margin-bottom: 1.5rem;
 }
 
-.panel-heading h1 {
+.panel-heading h1,
+.panel-heading h2 {
   font-size: 1.5rem;
   font-weight: 600;
-  margin: 0 0 0.5rem 0;
+  margin: 0;
   line-height: 1.2;
+}
+
+.panel-copy {
+  color: var(--color-muted);
+  margin: 0;
+  max-width: 42rem;
+}
+
+.command-block {
+  background: var(--color-hover);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  margin: 0;
+  overflow-x: auto;
+  padding: 1rem;
+}
+
+.command-block code {
+  background: none;
+  display: block;
+  line-height: 1.7;
+  padding: 0;
 }
 
 .search-box {

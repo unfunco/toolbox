@@ -1,12 +1,25 @@
 ---
 layout: layouts/base.liquid
-title: Pin GitHub Actions
-description: Search pinned GitHub Actions versions and copy ready-to-use uses lines.
+title: GitHub Actions
+description: Search pinned GitHub Actions versions, copy ready-to-use uses lines, and install gh-pin to pin workflows locally.
+tab: github-actions
 ---
+
+<section aria-labelledby="tool-title" class="tool-intro">
+	<div class="panel-heading">
+		<h1 id="tool-title">GitHub Actions</h1>
+		<p class="panel-copy">
+			Install <a href="https://github.com/unfunco/gh-pin"><code>gh-pin</code></a> to pin workflow actions locally before you commit. It uses the same shared pin list as this site and helps replace mutable tags with immutable SHAs.
+		</p>
+	</div>
+	<pre class="command-block"><code class="language-bash">gh extension install unfunco/gh-pin
+gh pin</code></pre>
+</section>
 
 <section aria-labelledby="search-title" class="search-panel" id="search-panel">
 	<div class="panel-heading">
-		<h1 id="search-title">Search GitHub Actions</h1>
+		<h2 id="search-title">Search pinned actions</h2>
+		<p class="panel-copy">Search the shared pin list and copy ready-to-use <code>uses:</code> lines.</p>
 	</div>
 	<div class="search-box">
 		<label class="search-label" for="search">Action name</label>
