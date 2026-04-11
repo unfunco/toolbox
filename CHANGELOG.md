@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.3.1](https://github.com/unfunco/toolbox/compare/v0.3.0...v0.3.1) (2026-04-11)
+
+
+### 🐛 Bug fixes
+
+* Align site styling with unfun.co ([#82](https://github.com/unfunco/toolbox/issues/82)) ([d4df37b](https://github.com/unfunco/toolbox/commit/d4df37b2f71b99da4ade467bc8fbea6fec961721))
+
+
+### 🧹 Miscellaneous
+
+* Add a Dependabot configuration for Bun deps ([#81](https://github.com/unfunco/toolbox/issues/81)) ([aa010d3](https://github.com/unfunco/toolbox/commit/aa010d3001a6b745e4588ff04d30386a9e0a7147))
+
 ## [0.3.0](https://github.com/unfunco/toolbox/compare/v0.2.0...v0.3.0) (2026-04-11)
 
 
