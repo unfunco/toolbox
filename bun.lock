@@ -7,7 +7,7 @@
       "devDependencies": {
         "@11ty/eleventy": "3.1.5",
         "@fontsource-variable/mona-sans": "5.2.8",
-        "@unfunco/prettier-plugin-yaml": "0.2.0",
+        "@unfunco/prettier-plugin-yaml": "0.3.1",
         "prettier": "3.8.1",
       },
     },
@@ -37,7 +37,7 @@
 
     "@sindresorhus/transliterate": ["@sindresorhus/transliterate@1.6.0", "", { "dependencies": { "escape-string-regexp": "^5.0.0" } }, "sha512-doH1gimEu3A46VX6aVxpHTeHrytJAG6HgdxntYnCFiIFHEM/ZGpG8KiZGBChchjQmG0XFIBL552kBTjVcMZXwQ=="],
 
-    "@unfunco/prettier-plugin-yaml": ["@unfunco/prettier-plugin-yaml@0.2.0", "", { "peerDependencies": { "prettier": "^3.0.0" } }, "sha512-AUjSk9A4i28+OyFRVPr1Flaj7TLvX1HaTpG19TjCOsOQzNo6Dr5EOTzUvyMObEz16kRl8wWNqQZVudtvl6i8bg=="],
+    "@unfunco/prettier-plugin-yaml": ["@unfunco/prettier-plugin-yaml@0.3.1", "", { "peerDependencies": { "prettier": "^3.0.0" } }, "sha512-Ng+R2w/KVQxLPb9pQvxA2QSxkCB/BUEDBA9xMGqQXv3oagUJG9q0pp2o9RZz5fOsydoOkBn8swHU2P02+nD+ig=="],
 
     "a-sync-waterfall": ["a-sync-waterfall@1.0.1", "", {}, "sha512-RYTOHHdWipFUliRFMCS4X2Yn2X8M87V/OpSqWzKKOGhzqyUxzyVmhHDH9sAvG+ZuQf/TAOFsLCpMw09I1ufUnA=="],
 

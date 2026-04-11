@@ -2,7 +2,7 @@
   "devDependencies": {
     "@11ty/eleventy": "3.1.5",
     "@fontsource-variable/mona-sans": "5.2.8",
-    "@unfunco/prettier-plugin-yaml": "0.2.0",
+    "@unfunco/prettier-plugin-yaml": "0.3.1",
     "prettier": "3.8.1"
   },
   "license": "MIT",
