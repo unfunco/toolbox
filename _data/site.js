@@ -10,13 +10,6 @@ export default {
     name: 'toolbox',
     url: 'https://github.com/unfunco/toolbox',
   },
-  tabs: [
-    {
-      href: './',
-      id: 'github-actions',
-      label: 'GitHub Actions',
-    },
-  ],
   title: 'toolbox',
   year: new Date().getFullYear(),
 }
