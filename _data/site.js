@@ -4,12 +4,19 @@
 // noinspection JSUnusedGlobalSymbols
 export default {
   description:
-    'Search pinned GitHub Actions versions and copy ready-to-use uses lines.',
+    'Small tools for GitHub workflows, starting with pinned GitHub Actions.',
   repo: {
     owner: 'unfunco',
     name: 'toolbox',
     url: 'https://github.com/unfunco/toolbox',
   },
+  tabs: [
+    {
+      href: './',
+      id: 'github-actions',
+      label: 'GitHub Actions',
+    },
+  ],
   title: 'toolbox',
   year: new Date().getFullYear(),
 }
