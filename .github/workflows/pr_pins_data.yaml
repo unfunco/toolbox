@@ -1,7 +1,12 @@
 name: PR / Pins Data
 
 on:
-  pull_request: { }
+  pull_request:
+    paths:
+    - _data/pins.json
+    - .github/scripts/update_pins.py
+    - .github/scripts/validate_pins_pr.py
+    - .github/workflows/pr_pins_data.yaml
 
 jobs:
   verify-pins-data:
