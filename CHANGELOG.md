@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.3.0](https://github.com/unfunco/toolbox/compare/v0.2.0...v0.3.0) (2026-04-11)
+
+
+### 🎉 New features
+
+* Add a GitHub Actions tab with gh-pin instructions ([#71](https://github.com/unfunco/toolbox/issues/71)) ([2eeba95](https://github.com/unfunco/toolbox/commit/2eeba959897ca80804933c07f5e76d99195c4a7b))
+* Add actions from issues [#72](https://github.com/unfunco/toolbox/issues/72) and [#73](https://github.com/unfunco/toolbox/issues/73) ([#75](https://github.com/unfunco/toolbox/issues/75)) ([c9c219e](https://github.com/unfunco/toolbox/commit/c9c219e0e0b4302ab8b76e64359e4dbe6a3f25ec))
+* Add actions from issues [#76](https://github.com/unfunco/toolbox/issues/76), [#77](https://github.com/unfunco/toolbox/issues/77), and [#78](https://github.com/unfunco/toolbox/issues/78) ([#79](https://github.com/unfunco/toolbox/issues/79)) ([3be6144](https://github.com/unfunco/toolbox/commit/3be6144c1d12ade1f79a27bb770c519a7de49eb3))
+
+
+### 🐛 Bug fixes
+
+* Remove redundant ready status text on load ([#57](https://github.com/unfunco/toolbox/issues/57)) ([ce19b11](https://github.com/unfunco/toolbox/commit/ce19b11eb0db90352a8bc307e9d9c5b1dbe76c1a))
+
+
+### 🧹 Miscellaneous
+
+* Bump @unfunco/prettier-plugin-yaml from 0.2.0 to 0.3.1 ([#69](https://github.com/unfunco/toolbox/issues/69)) ([74e7ad8](https://github.com/unfunco/toolbox/commit/74e7ad84b9d6c4882d6eaadc4fcccfb32db46991))
+* Bump actions/configure-pages from 5.0.0 to 6.0.0 ([#59](https://github.com/unfunco/toolbox/issues/59)) ([acd3e48](https://github.com/unfunco/toolbox/commit/acd3e4834dbb39a82fdac756a47eca2ad3a5af1c))
+* Bump actions/deploy-pages from 4.0.5 to 5.0.0 ([#60](https://github.com/unfunco/toolbox/issues/60)) ([da9282d](https://github.com/unfunco/toolbox/commit/da9282db1e83d24030549bc6fd6ac6b734ba5e61))
+* Update automated commit message title ([cc66b78](https://github.com/unfunco/toolbox/commit/cc66b7822f9d25959e17a5a49577e99cf8090a26))
+
 ## [0.2.0](https://github.com/unfunco/toolbox/compare/v0.1.2...v0.2.0) (2026-03-27)
 
 
