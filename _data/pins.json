@@ -224,9 +224,9 @@
     },
     {
       "action": "peter-evans/create-pull-request",
-      "tag": "v8.1.0",
-      "sha": "c0f553fe549906ede9cf27b5156039d195d2ece0",
-      "published_at": "2026-01-21T15:22:17Z"
+      "tag": "v8.1.1",
+      "sha": "5f6978faf089d4d20b00c7766989d076bb2fc7f1",
+      "published_at": "2026-04-10T16:27:57Z"
     }
   ]
 }
