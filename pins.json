@@ -211,6 +211,12 @@
       "published_at": "2026-03-17T23:14:55Z"
     },
     {
+      "action": "github/codeql-action/init",
+      "tag": "codeql-bundle-v2.25.1",
+      "sha": "f94817b9f0deeb3871261446912ae8f854d1b675",
+      "published_at": "2026-03-27T09:41:47Z"
+    },
+    {
       "action": "googleapis/release-please-action",
       "tag": "v4.4.0",
       "sha": "16a9c90856f42705d54a6fda1823352bdc62cf38",
@@ -227,6 +233,12 @@
       "tag": "v8.1.1",
       "sha": "5f6978faf089d4d20b00c7766989d076bb2fc7f1",
       "published_at": "2026-04-10T16:27:57Z"
+    },
+    {
+      "action": "unfunco/setup-gum",
+      "tag": "v0.1.0",
+      "sha": "8226de8b19489b3baefca8a6cc2a304fa0d82947",
+      "published_at": "2025-08-10T10:22:52Z"
     }
   ]
 }
