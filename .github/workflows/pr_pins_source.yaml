@@ -2,9 +2,6 @@ name: PR / Pins Source
 
 on:
   pull_request:
-    paths:
-    - actions.txt
-    - .github/workflows/pr_pins_source.yaml
 
 jobs:
   verify:
