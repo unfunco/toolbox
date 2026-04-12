@@ -247,6 +247,12 @@
       "published_at": "2026-04-10T16:27:57Z"
     },
     {
+      "action": "tfsec/tfsec-sarif-action",
+      "tag": "v0.1.4",
+      "sha": "21ded20e8ca120cd9d3d6ab04ef746477542a608",
+      "published_at": "2022-11-03T14:43:43Z"
+    },
+    {
       "action": "unfunco/setup-gum",
       "tag": "v0.1.0",
       "sha": "8226de8b19489b3baefca8a6cc2a304fa0d82947",
