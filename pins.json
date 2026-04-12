@@ -169,6 +169,12 @@
       "published_at": "2020-02-10T08:01:38Z"
     },
     {
+      "action": "anthropics/claude-code-action",
+      "tag": "v1",
+      "sha": "b47fd721da662d48c5680e154ad16a73ed74d2e0",
+      "published_at": "2025-08-26T17:01:10Z"
+    },
+    {
       "action": "aws-actions/amazon-ecr-login",
       "tag": "v2.1.2",
       "sha": "f2e9fc6c2b355c1890b65e6f6f0e2ac3e6e22f78",
