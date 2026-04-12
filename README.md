@@ -2,6 +2,9 @@
 
 A repository for tracking pinned GitHub Actions metadata.
 
+The published `pins.json` file is deployed to
+[`https://unfun.co/pins.json`](https://unfun.co/pins.json).
+
 ## License
 
 © 2026 [Daniel Morris]\

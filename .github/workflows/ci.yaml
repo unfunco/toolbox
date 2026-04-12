@@ -1,4 +1,4 @@
-name: Pages
+name: Publish Pins
 
 on:
   push:
@@ -10,47 +10,45 @@ on:
   workflow_dispatch: { }
 
 jobs:
-  build:
-    name: Build
+  verify:
+    name: 1. Verify
     permissions:
       contents: read
-      id-token: write
-      pages: write
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
       uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-    - name: Setup GitHub Pages
-      uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
-    - name: Build Pages artifact
+    - name: Validate pins.json
       run: |
         set -euo pipefail
 
         python3 -m json.tool pins.json >/dev/null
-        rm -rf dist
-        mkdir -p dist
-        cp pins.json dist/pins.json
-    - name: Upload Pages artifact
-      uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
-      with:
-        path: dist
 
   deploy:
     if: ${{ github.ref == 'refs/heads/main' }}
-    name: Deploy
-    concurrency:
-      cancel-in-progress: false
-      group: pages
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    needs: [ build ]
+    name: 2. Deploy
+    needs: [ verify ]
     permissions:
       contents: read
       id-token: write
-      pages: write
     runs-on: ubuntu-latest
     steps:
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0
+    - name: Checkout code
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@ec61189d14ec14c8efccab744f656cffd0e33f37 # v6.1.0
+      with:
+        aws-region: eu-west-1
+        role-to-assume: arn:aws:iam::488884465262:role/GitHubActionsPins
+    - name: Upload pins.json to S3
+      run: |
+        set -euo pipefail
+
+        aws s3api put-object \
+          --body pins.json \
+          --bucket unfun.co \
+          --key pins.json \
+          --cache-control 'public,max-age=300,stale-while-revalidate=60' \
+          --content-type application/json
+    - name: Invalidate CloudFront cache
+      run: aws cloudfront create-invalidation --distribution-id E2E1RKQ7JDHSLZ --paths '/pins.json'
