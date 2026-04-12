@@ -12,91 +12,12 @@ jobs:
       uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
         fetch-depth: 0
-    - name: Validate actions.txt
-      run: |
-        set -euo pipefail
-
-        echo "Checking alphabetical sort order..."
-        if ! LC_ALL=C sort -c actions.txt; then
-          >&2 echo "actions.txt must be sorted alphabetically."
-          exit 1
-        fi
-
-        echo "Checking for trailing whitespace..."
-        if grep -nE '[[:blank:]]+$' actions.txt; then
-          >&2 echo "actions.txt contains trailing whitespace."
-          exit 1
-        fi
-
-        echo "Validating line format (org/repo or org/repo/subpath)..."
-        if grep -nEv '^[A-Za-z0-9-]+/[A-Za-z0-9_.-]+(/[A-Za-z0-9_.-]+)*$' actions.txt; then
-          >&2 echo "Every line in actions.txt must match the format org/repo or org/repo/subpath."
-          exit 1
-        fi
-    - name: Check new GitHub Actions
+    - name: Validate actions.csv
       env:
-        BASE_SHA: ${{ github.event.pull_request.base.sha }}
         GH_TOKEN: ${{ github.token }}
       run: |
         set -euo pipefail
 
-        echo "Identifying added actions..."
-        if git show "${BASE_SHA}:actions.txt" 2>/dev/null | LC_ALL=C sort > actions.base.txt; then
-          :
-        elif git show "${BASE_SHA}:pins/actions.txt" 2>/dev/null | LC_ALL=C sort > actions.base.txt; then
-          :
-        else
-          touch actions.base.txt
-        fi
-
-        LC_ALL=C sort actions.txt > actions.current.txt
-
-        added_lines=$(comm -13 actions.base.txt actions.current.txt)
-
-        if [[ -z "$added_lines" ]]; then
-          echo "No new actions added."
-          exit 0
-        fi
-
-        echo "Verifying added actions:"
-        echo "$added_lines"
-
-        while IFS= read -r line; do
-          [[ -z "$line" ]] && continue
-
-          if ! [[ "$line" =~ ^[A-Za-z0-9-]+/[A-Za-z0-9_.-]+(/[A-Za-z0-9_.-]+)*$ ]]; then
-            >&2 echo "Invalid format: $line"
-            exit 1
-          fi
-
-          # Extract owner/repo and optional sub-path
-          owner_repo=$(echo "$line" | cut -d/ -f1,2)
-          subpath=$(echo "$line" | cut -s -d/ -f3-)
-
-          echo "Checking $line..."
-          if ! gh api "repos/$owner_repo" --silent >/dev/null; then
-            >&2 echo "Repository does not exist or is not accessible: $owner_repo"
-            exit 1
-          fi
-
-          if [[ -n "$subpath" ]]; then
-            if gh api "repos/$owner_repo/contents/$subpath/action.yml" --silent >/dev/null 2>&1 \
-              || gh api "repos/$owner_repo/contents/$subpath/action.yaml" --silent >/dev/null 2>&1; then
-              echo "Verified GitHub Action: $line"
-              continue
-            fi
-
-            >&2 echo "$line does not appear to be a GitHub Action (missing $subpath/action.yml or $subpath/action.yaml)."
-            exit 1
-          fi
-
-          if gh api "repos/$owner_repo/contents/action.yml" --silent >/dev/null 2>&1 \
-            || gh api "repos/$owner_repo/contents/action.yaml" --silent >/dev/null 2>&1 \
-            || gh api "repos/$owner_repo/contents/Dockerfile" --silent >/dev/null 2>&1; then
-            echo "Verified GitHub Action repository: $line"
-            continue
-          fi
-
-          >&2 echo "$line does not appear to be a GitHub Action (missing root action.yml, action.yaml, or Dockerfile)."
-          exit 1
-        done <<< "$added_lines"
+        python3 .github/scripts/validate_actions_source.py \
+          --actions-file actions.csv \
+          --base-ref "${{ github.event.pull_request.base.sha }}"

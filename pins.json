@@ -13,6 +13,48 @@
       "published_at": "2026-03-27T12:27:13Z"
     },
     {
+      "action": "Homebrew/actions/cache-homebrew-prefix",
+      "tag": "main",
+      "sha": "59e6b20d96df1a3c9ccb0aa402676e01a4cc6ff3",
+      "published_at": "2026-04-10T08:20:35Z"
+    },
+    {
+      "action": "Homebrew/actions/create-or-update-issue",
+      "tag": "main",
+      "sha": "59e6b20d96df1a3c9ccb0aa402676e01a4cc6ff3",
+      "published_at": "2026-04-10T08:20:35Z"
+    },
+    {
+      "action": "Homebrew/actions/git-try-push",
+      "tag": "main",
+      "sha": "59e6b20d96df1a3c9ccb0aa402676e01a4cc6ff3",
+      "published_at": "2026-04-10T08:20:35Z"
+    },
+    {
+      "action": "Homebrew/actions/git-user-config",
+      "tag": "main",
+      "sha": "59e6b20d96df1a3c9ccb0aa402676e01a4cc6ff3",
+      "published_at": "2026-04-10T08:20:35Z"
+    },
+    {
+      "action": "Homebrew/actions/setup-commit-signing",
+      "tag": "main",
+      "sha": "59e6b20d96df1a3c9ccb0aa402676e01a4cc6ff3",
+      "published_at": "2026-04-10T08:20:35Z"
+    },
+    {
+      "action": "Homebrew/actions/setup-homebrew",
+      "tag": "main",
+      "sha": "59e6b20d96df1a3c9ccb0aa402676e01a4cc6ff3",
+      "published_at": "2026-04-10T08:20:35Z"
+    },
+    {
+      "action": "Homebrew/actions/setup-ruby",
+      "tag": "main",
+      "sha": "59e6b20d96df1a3c9ccb0aa402676e01a4cc6ff3",
+      "published_at": "2026-04-10T08:20:35Z"
+    },
+    {
       "action": "actions/add-to-project",
       "tag": "v1.0.2",
       "sha": "244f685bbc3b7adfa8466e08b698b5577571133e",

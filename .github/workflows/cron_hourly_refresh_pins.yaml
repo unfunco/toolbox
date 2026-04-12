@@ -52,7 +52,7 @@ jobs:
         set -euo pipefail
 
         python3 .github/scripts/update_pins.py \
-          --actions-file actions.txt \
+          --actions-file actions.csv \
           --pins-file pins.json \
           --shard "${{ steps.shard.outputs.shard }}"
       timeout-minutes: 5
@@ -116,7 +116,7 @@ jobs:
 
         pr_url="$(gh pr create \
           --title "ci(pins): Refresh pins for shard ${{ steps.shard.outputs.shard }}" \
-          --body "This refreshes the pin data in shard ${{ steps.shard.outputs.shard }} using the latest versions published on the GitHub Marketplace." \
+          --body "This refreshes the pin data in shard ${{ steps.shard.outputs.shard }} using the latest published versions and any configured source ref overrides." \
           --label "automata 🤖" \
           --label "chore 🧹" \
           --head "$branch" \

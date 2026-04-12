@@ -6,10 +6,10 @@ import sys
 from pathlib import Path
 
 from update_pins import (
-    load_action_names,
+    load_action_sources,
     load_pin_entries,
     parse_pin_entries,
-    resolve_action_metadata_for_tag,
+    resolve_action_metadata,
     serialize_pins,
 )
 
@@ -87,7 +87,13 @@ def main() -> int:
     actions_file = Path(args.actions_file)
     pins_file = Path(args.pins_file)
 
-    allowed_actions = set(load_action_names(actions_file))
+    action_sources = load_action_sources(actions_file)
+    allowed_actions = {action_source.action for action_source in action_sources}
+    ref_overrides = {
+        action_source.action: action_source.ref_override
+        for action_source in action_sources
+        if action_source.ref_override is not None
+    }
     current_entries = load_pin_entries(pins_file)
 
     unknown_actions = sorted(set(current_entries) - allowed_actions)
@@ -127,17 +133,15 @@ def main() -> int:
             continue
 
         print(f"Validating {action_name}@{current_entry['tag']}...")
-        expected_entry = resolve_action_metadata_for_tag(
-            action_name, current_entry["tag"]
-        )
+        ref_override = ref_overrides.get(action_name)
+        expected_entry = resolve_action_metadata(action_name, ref_override)
 
         if current_entry != expected_entry:
             raise SystemExit(
-                f"{args.pins_file} entry for {action_name} does not match GitHub metadata for "
-                f"tag {current_entry['tag']}. Expected sha={expected_entry['sha']} and "
-                f"published_at={expected_entry['published_at']}, got "
-                f"sha={current_entry['sha']} and "
-                f"published_at={current_entry['published_at']}."
+                f"{args.pins_file} entry for {action_name} does not match the updater output. "
+                f"Expected tag={expected_entry['tag']} sha={expected_entry['sha']} and "
+                f"published_at={expected_entry['published_at']}, got tag={current_entry['tag']} "
+                f"sha={current_entry['sha']} and published_at={current_entry['published_at']}."
             )
 
     print(f"Validated {len(changed_actions)} {args.pins_file} change(s).")

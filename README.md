@@ -2,6 +2,9 @@
 
 A repository for tracking pinned GitHub Actions metadata.
 
+The source list lives in `actions.csv`. Each row contains `action` or
+`action,ref_override`.
+
 The published `pins.json` file is deployed to
 [`https://unfun.co/pins.json`](https://unfun.co/pins.json).
 

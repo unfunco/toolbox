@@ -19,6 +19,6 @@ jobs:
         set -euo pipefail
 
         python3 .github/scripts/validate_pins_pr.py \
-          --actions-file actions.txt \
+          --actions-file actions.csv \
           --pins-file pins.json \
           --base-ref "${{ github.event.pull_request.base.sha }}"

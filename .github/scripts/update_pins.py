@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
 import argparse
+import csv
 import hashlib
+import io
 import json
 import os
 import re
@@ -9,8 +11,12 @@ import sys
 import urllib.error
 import urllib.parse
 import urllib.request
+from dataclasses import dataclass
 from pathlib import Path
+from typing import Optional
 
+ACTION_NAME_RE = re.compile(r"^[A-Za-z0-9-]+/[A-Za-z0-9_.-]+(/[A-Za-z0-9_.-]+)*$")
+REF_OVERRIDE_RE = re.compile(r"^[^,\s]+$")
 SEMVER_TAG_RE = re.compile(
     r"^v?(?P<major>\d+)"
     r"(?:\.(?P<minor>\d+))?"
@@ -18,6 +24,12 @@ SEMVER_TAG_RE = re.compile(
     r"(?:-(?P<prerelease>[0-9A-Za-z.-]+))?"
     r"(?:\+[0-9A-Za-z.-]+)?$"
 )
+
+
+@dataclass(frozen=True)
+class ActionSource:
+    action: str
+    ref_override: Optional[str] = None
 
 
 class GitHubApiError(RuntimeError):
@@ -116,10 +128,15 @@ def repo_for_action(action_name: str) -> str:
 
 def resolve_commit_for_ref(action_name: str, ref_name: str) -> dict:
     encoded_ref = urllib.parse.quote(ref_name, safe="")
-    return github_get_json(f"/repos/{repo_for_action(action_name)}/commits/{encoded_ref}")
+    try:
+        return github_get_json(f"/repos/{repo_for_action(action_name)}/commits/{encoded_ref}")
+    except GitHubNotFoundError:
+        raise GitHubApiError(
+            f"{action_name}@{ref_name} does not exist or is not accessible."
+        ) from None
 
 
-def release_for_tag(action_name: str, tag_name: str) -> dict | None:
+def release_for_tag(action_name: str, tag_name: str) -> Optional[dict]:
     encoded_tag = urllib.parse.quote(tag_name, safe="")
     try:
         return github_get_json(f"/repos/{repo_for_action(action_name)}/releases/tags/{encoded_tag}")
@@ -128,22 +145,22 @@ def release_for_tag(action_name: str, tag_name: str) -> dict | None:
 
 
 def build_action_metadata(
-    action_name: str, tag_name: str, commit: dict, published_at: str
+    action_name: str, ref_name: str, commit: dict, published_at: str
 ) -> dict[str, str]:
     return {
         "action": action_name,
-        "tag": tag_name,
+        "tag": ref_name,
         "sha": commit["sha"],
         "published_at": published_at,
     }
 
 
-def resolve_action_metadata_for_tag(
-    action_name: str, tag_name: str, release: dict | None = None
+def resolve_action_metadata_for_ref(
+    action_name: str, ref_name: str, release: Optional[dict] = None
 ) -> dict[str, str]:
-    commit = resolve_commit_for_ref(action_name, tag_name)
+    commit = resolve_commit_for_ref(action_name, ref_name)
     if release is None:
-        release = release_for_tag(action_name, tag_name)
+        release = release_for_tag(action_name, ref_name)
 
     published_at = commit["commit"]["committer"]["date"]
     if release is not None:
@@ -153,14 +170,25 @@ def resolve_action_metadata_for_tag(
             or commit["commit"]["committer"]["date"]
         )
 
-    return build_action_metadata(action_name, tag_name, commit, published_at)
+    return build_action_metadata(action_name, ref_name, commit, published_at)
 
 
-def resolve_action_metadata(action_name: str) -> dict[str, str]:
+def resolve_action_metadata_for_tag(
+    action_name: str, tag_name: str, release: Optional[dict] = None
+) -> dict[str, str]:
+    return resolve_action_metadata_for_ref(action_name, tag_name, release=release)
+
+
+def resolve_action_metadata(
+    action_name: str, ref_override: Optional[str] = None
+) -> dict[str, str]:
+    if ref_override is not None:
+        return resolve_action_metadata_for_ref(action_name, ref_override)
+
     repo = repo_for_action(action_name)
     try:
         latest_release = github_get_json(f"/repos/{repo}/releases/latest")
-        return resolve_action_metadata_for_tag(
+        return resolve_action_metadata_for_ref(
             action_name, latest_release["tag_name"], release=latest_release
         )
     except GitHubNotFoundError:
@@ -170,14 +198,115 @@ def resolve_action_metadata(action_name: str) -> dict[str, str]:
                 f"{action_name} has no published releases or tags to pin."
             ) from None
 
-        return resolve_action_metadata_for_tag(action_name, choose_best_tag(tags))
+        return resolve_action_metadata_for_ref(action_name, choose_best_tag(tags))
+
+
+def parse_action_sources(
+    raw_text: str, source_name: str = "<actions file>", legacy_format: bool = False
+) -> list[ActionSource]:
+    action_sources: list[ActionSource] = []
+    seen_actions: set[str] = set()
+
+    if legacy_format:
+        for row_number, raw_line in enumerate(raw_text.splitlines(), start=1):
+            if not raw_line:
+                continue
+
+            line = raw_line.strip()
+            if raw_line != line:
+                raise SystemExit(
+                    f"{source_name}:{row_number} must not include leading or trailing whitespace."
+                )
+
+            if ACTION_NAME_RE.fullmatch(line) is None:
+                raise SystemExit(
+                    f"{source_name}:{row_number} must match org/repo or org/repo/subpath."
+                )
+
+            if line in seen_actions:
+                raise SystemExit(f"{source_name}:{row_number} duplicates {line}.")
+
+            seen_actions.add(line)
+            action_sources.append(ActionSource(action=line))
+
+        return action_sources
+
+    reader = csv.reader(io.StringIO(raw_text))
+    for row_number, row in enumerate(reader, start=1):
+        if not row or row == [""]:
+            continue
+
+        if len(row) > 2:
+            raise SystemExit(
+                f"{source_name}:{row_number} must contain action[,ref_override]."
+            )
+
+        raw_action = row[0]
+        if raw_action != raw_action.strip():
+            raise SystemExit(
+                f"{source_name}:{row_number} action must not include surrounding whitespace."
+            )
+
+        action_name = raw_action.strip()
+        if not action_name:
+            raise SystemExit(f"{source_name}:{row_number} is missing an action name.")
+
+        if ACTION_NAME_RE.fullmatch(action_name) is None:
+            raise SystemExit(
+                f"{source_name}:{row_number} action must match org/repo or org/repo/subpath."
+            )
+
+        ref_override = None
+        if len(row) == 2:
+            raw_ref_override = row[1]
+            if raw_ref_override != raw_ref_override.strip():
+                raise SystemExit(
+                    f"{source_name}:{row_number} ref override must not include surrounding whitespace."
+                )
+
+            ref_override = raw_ref_override.strip() or None
+            if (
+                ref_override is not None
+                and REF_OVERRIDE_RE.fullmatch(ref_override) is None
+            ):
+                raise SystemExit(
+                    f"{source_name}:{row_number} ref override contains invalid characters."
+                )
+
+        if action_name in seen_actions:
+            raise SystemExit(f"{source_name}:{row_number} duplicates {action_name}.")
+
+        seen_actions.add(action_name)
+        action_sources.append(
+            ActionSource(action=action_name, ref_override=ref_override)
+        )
+
+    return action_sources
+
+
+def load_action_sources(actions_file: Path) -> list[ActionSource]:
+    return parse_action_sources(
+        actions_file.read_text(),
+        source_name=str(actions_file),
+        legacy_format=actions_file.suffix == ".txt",
+    )
 
 
 def load_action_names(actions_file: Path) -> list[str]:
-    actions = [
-        line.strip() for line in actions_file.read_text().splitlines() if line.strip()
-    ]
-    return actions
+    return [action_source.action for action_source in load_action_sources(actions_file)]
+
+
+def serialize_action_sources(action_sources: list[ActionSource]) -> str:
+    output = io.StringIO()
+    writer = csv.writer(output, lineterminator="\n")
+
+    for action_source in sorted(action_sources, key=lambda source: source.action):
+        row = [action_source.action]
+        if action_source.ref_override is not None:
+            row.append(action_source.ref_override)
+        writer.writerow(row)
+
+    return output.getvalue()
 
 
 def parse_pin_entries(raw_text: str) -> dict[str, dict[str, str]]:
@@ -235,22 +364,35 @@ def main() -> int:
     actions_file = Path(args.actions_file)
     pins_file = Path(args.pins_file)
 
-    all_actions = load_action_names(actions_file)
+    all_action_sources = load_action_sources(actions_file)
     selected_actions = [
-        action_name
-        for action_name in all_actions
-        if shard_for(action_name) == args.shard
+        action_source
+        for action_source in all_action_sources
+        if shard_for(action_source.action) == args.shard
     ]
 
     print(
         f"Selected {len(selected_actions)} action(s) for shard {args.shard}: "
-        + (", ".join(selected_actions) if selected_actions else "(none)")
+        + (
+            ", ".join(action_source.action for action_source in selected_actions)
+            if selected_actions
+            else "(none)"
+        )
     )
 
     current_entries = load_pin_entries(pins_file)
-    for action_name in selected_actions:
-        print(f"Resolving latest metadata for {action_name}...")
-        current_entries[action_name] = resolve_action_metadata(action_name)
+    for action_source in selected_actions:
+        if action_source.ref_override is None:
+            print(f"Resolving latest metadata for {action_source.action}...")
+        else:
+            print(
+                f"Resolving metadata for "
+                f"{action_source.action}@{action_source.ref_override}..."
+            )
+
+        current_entries[action_source.action] = resolve_action_metadata(
+            action_source.action, action_source.ref_override
+        )
 
     original_text = pins_file.read_text() if pins_file.exists() else ""
     next_text = serialize_pins(current_entries)
