@@ -301,10 +301,9 @@ def serialize_action_sources(action_sources: list[ActionSource]) -> str:
     writer = csv.writer(output, lineterminator="\n")
 
     for action_source in sorted(action_sources, key=lambda source: source.action):
-        row = [action_source.action]
-        if action_source.ref_override is not None:
-            row.append(action_source.ref_override)
-        writer.writerow(row)
+        writer.writerow(
+            [action_source.action, action_source.ref_override or ""]
+        )
 
     return output.getvalue()
 
