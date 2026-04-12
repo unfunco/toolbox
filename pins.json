@@ -217,6 +217,12 @@
       "published_at": "2026-03-27T09:41:47Z"
     },
     {
+      "action": "github/codeql-action/upload-sarif",
+      "tag": "codeql-bundle-v2.25.1",
+      "sha": "f94817b9f0deeb3871261446912ae8f854d1b675",
+      "published_at": "2026-03-27T09:41:47Z"
+    },
+    {
       "action": "googleapis/release-please-action",
       "tag": "v4.4.0",
       "sha": "16a9c90856f42705d54a6fda1823352bdc62cf38",
