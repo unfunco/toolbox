@@ -80,9 +80,9 @@
     },
     {
       "action": "actions/cache",
-      "tag": "v5.0.4",
-      "sha": "668228422ae6a00e4ad889ee87cd7109ec5666a7",
-      "published_at": "2026-03-18T15:04:42Z"
+      "tag": "v5.0.5",
+      "sha": "27d5ce7f107fe9357f9df03efb73ab90386fccae",
+      "published_at": "2026-04-13T15:57:52Z"
     },
     {
       "action": "actions/checkout",
