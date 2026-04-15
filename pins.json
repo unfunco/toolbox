@@ -260,9 +260,9 @@
     },
     {
       "action": "github/codeql-action/init",
-      "tag": "codeql-bundle-v2.25.1",
-      "sha": "f94817b9f0deeb3871261446912ae8f854d1b675",
-      "published_at": "2026-03-27T09:41:47Z"
+      "tag": "codeql-bundle-v2.25.2",
+      "sha": "65216971a11ded447a6b76263d5a144519e5eee1",
+      "published_at": "2026-04-15T09:37:45Z"
     },
     {
       "action": "github/codeql-action/upload-sarif",
