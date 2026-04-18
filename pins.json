@@ -265,6 +265,12 @@
       "published_at": "2026-03-17T23:14:55Z"
     },
     {
+      "action": "github/codeql-action/analyze",
+      "tag": "codeql-bundle-v2.25.2",
+      "sha": "65216971a11ded447a6b76263d5a144519e5eee1",
+      "published_at": "2026-04-15T09:37:45Z"
+    },
+    {
       "action": "github/codeql-action/init",
       "tag": "codeql-bundle-v2.25.2",
       "sha": "65216971a11ded447a6b76263d5a144519e5eee1",
