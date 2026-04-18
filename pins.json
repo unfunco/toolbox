@@ -45,8 +45,8 @@
     {
       "action": "Homebrew/actions/setup-homebrew",
       "tag": "main",
-      "sha": "59e6b20d96df1a3c9ccb0aa402676e01a4cc6ff3",
-      "published_at": "2026-04-10T08:20:35Z"
+      "sha": "98cfa07b984a61682e6cd3a0833fad2006cc84ba",
+      "published_at": "2026-04-17T08:23:36Z"
     },
     {
       "action": "Homebrew/actions/setup-ruby",
