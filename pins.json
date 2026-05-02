@@ -278,9 +278,9 @@
     },
     {
       "action": "github/codeql-action/upload-sarif",
-      "tag": "codeql-bundle-v2.25.2",
-      "sha": "65216971a11ded447a6b76263d5a144519e5eee1",
-      "published_at": "2026-04-15T09:37:45Z"
+      "tag": "codeql-bundle-v2.25.3",
+      "sha": "7851e55dc3be31ec4bcc3ef98453de2cb306e698",
+      "published_at": "2026-04-30T15:29:38Z"
     },
     {
       "action": "googleapis/release-please-action",
@@ -299,6 +299,12 @@
       "tag": "v8.1.1",
       "sha": "5f6978faf089d4d20b00c7766989d076bb2fc7f1",
       "published_at": "2026-04-10T16:27:57Z"
+    },
+    {
+      "action": "terraform-docs/gh-actions",
+      "tag": "v1.4.1",
+      "sha": "6de6da0cefcc6b4b7a5cbea4d79d97060733093c",
+      "published_at": "2025-05-13T17:57:34Z"
     },
     {
       "action": "tfsec/tfsec-sarif-action",
