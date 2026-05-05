@@ -62,9 +62,9 @@
     },
     {
       "action": "actions/add-to-project",
-      "tag": "v1.0.2",
-      "sha": "244f685bbc3b7adfa8466e08b698b5577571133e",
-      "published_at": "2024-06-24T21:04:37Z"
+      "tag": "v2.0.0",
+      "sha": "5afcf98fcd03f1c2f92c3c83f58ae24323cc57fd",
+      "published_at": "2026-05-04T21:00:39Z"
     },
     {
       "action": "actions/ai-inference",
