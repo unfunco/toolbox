@@ -152,9 +152,9 @@
     },
     {
       "action": "actions/labeler",
-      "tag": "v6.0.1",
-      "sha": "634933edcd8ababfe52f92936142cc22ac488b1b",
-      "published_at": "2025-09-04T17:56:16Z"
+      "tag": "v6.1.0",
+      "sha": "f27b608878404679385c85cfa523b85ccb86e213",
+      "published_at": "2026-05-06T02:46:16Z"
     },
     {
       "action": "actions/setup-copilot",
